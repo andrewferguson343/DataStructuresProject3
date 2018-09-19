@@ -49,14 +49,21 @@ public class LinkedBag<T> implements BagInterface<T>{
 
 	@Override
 	public boolean add(T newEntry) {
-		// TODO Auto-generated method stub
-		return false;
+		Node newNode = new Node(newEntry, firstNode);
+		firstNode = newNode;
+		numberOfEntries++;
+		return true;
 	}
 
 	@Override
 	public T remove() {
-		// TODO Auto-generated method stub
-		return null;
+		if(isEmpty()){
+			return null;
+		}
+		T buffer = firstNode.data;
+		firstNode = firstNode.next;
+		numberOfEntries--; 
+		return buffer;
 	}
 
  	// Locates a given entry within this bag.
@@ -76,8 +83,20 @@ public class LinkedBag<T> implements BagInterface<T>{
 
 	@Override
 	public boolean remove(T anEntry) {
-		// TODO Auto-generated method stub
-		return false;
+		//test to see if the bag is empty
+		if(isEmpty()) {
+			return false;
+		}
+		//test to see if entry is in the bag
+		Node temp = getReferenceTo(anEntry);
+		if(temp == null) {
+			return false;		
+		}
+		//remove the entry
+		temp.data = firstNode.data;
+		firstNode = firstNode.next;
+		numberOfEntries--;
+		return true;
 	}
 
 	@Override
@@ -100,7 +119,15 @@ public class LinkedBag<T> implements BagInterface<T>{
 
 	@Override
 	public T[] toArray() {
-		// TODO Auto-generated method stub
+		T[] temp = (T[])new Object[numberOfEntries];
+		Node current = firstNode;		
+		for(int i = 0; i < temp.length; i++ ) {
+			temp[i] = current.data;
+			current = current.next;
+		}
+		return temp;
+			
+			
 		return null;
 	}
 	
