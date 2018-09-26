@@ -37,13 +37,21 @@ public class LinkedBag<T> implements BagInterface<T>{
 	
 	@Override
 	public int getCurrentSize() {
-		// TODO Auto-generated method stub
-		return 0;
+	  
+	  int count = 0;
+	  Node currentNode = firstNode;
+	  while(currentNode != null )
+	  {
+	    count++;
+	    currentNode = currentNode.next;
+	  }
+		return count;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
+		if(firstNode == null)
+		  return true;
 		return false;
 	}
 
@@ -55,15 +63,16 @@ public class LinkedBag<T> implements BagInterface<T>{
 		return true;
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
+  @Override
 	public T remove() {
 		if(isEmpty()){
 			return null;
-		}
+		}			
 		T buffer = firstNode.data;
 		firstNode = firstNode.next;
 		numberOfEntries--; 
-		return buffer;
+		return buffer;				
 	}
 
  	// Locates a given entry within this bag.
@@ -96,25 +105,50 @@ public class LinkedBag<T> implements BagInterface<T>{
 		temp.data = firstNode.data;
 		firstNode = firstNode.next;
 		numberOfEntries--;
+		if(contains(anEntry))
+		{
+		  return remove(anEntry);
+		}
 		return true;
 	}
 
 	@Override
-	public void clear() {
-		// TODO Auto-generated method stub
-		
+	public void clear() {	
+		firstNode  = null;
+		numberOfEntries = 0;
 	}
 
 	@Override
 	public int getFrequencyOf(T anEntry) {
-		// TODO Auto-generated method stub
-		return 0;
+		Node currentNode = firstNode;
+		int count = 0;
+		while(currentNode != null)
+		{
+		  if(currentNode.data == anEntry)
+		  {
+		    count++;
+		  }
+		  currentNode = currentNode.next;
+		}
+		return count;
 	}
 
 	@Override
 	public boolean contains(T anEntry) {
-		// TODO Auto-generated method stub
-		return false;
+		Node currentNode = firstNode;
+		boolean foundFlag = false;
+		while (currentNode != null && foundFlag == false)
+		{
+			if(anEntry.equals(currentNode.data))
+			{
+				foundFlag = true;
+			}
+			else
+			{
+				currentNode = currentNode.next;
+			}
+		}
+		return foundFlag;
 	}
 
 	@Override
@@ -125,10 +159,7 @@ public class LinkedBag<T> implements BagInterface<T>{
 			temp[i] = current.data;
 			current = current.next;
 		}
-		return temp;
-			
-			
-		return null;
+		return temp;		
 	}
 	
 }
